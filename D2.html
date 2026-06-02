@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>CSS + JS Clock</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 10px;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      font-family: Helvetica, sans-serif;
+
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.35), transparent 25%),
+        radial-gradient(circle at 80% 30%, rgba(255,255,255,0.25), transparent 30%),
+        radial-gradient(circle at 50% 80%, rgba(255,255,255,0.2), transparent 30%),
+        linear-gradient(135deg, #7ec8ff, #b7e3ff, #dff4ff);
+
+      animation: skyMove 12s ease infinite alternate;
+    }
+
+    @keyframes skyMove {
+      from {
+        background-position: 0 0, 0 0, 0 0, 0 0;
+      }
+      to {
+        background-position: 40px 20px, -30px 10px, 20px -20px, 0 0;
+      }
+    }
+
+    .clock {
+      width: 30rem;
+      height: 30rem;
+      border: 14px solid rgba(255,255,255,0.8);
+      border-radius: 50%;
+      position: relative;
+      padding: 2rem;
+
+      backdrop-filter: blur(10px);
+
+      box-shadow:
+        0 0 30px rgba(255,255,255,0.3),
+        inset 0 0 20px rgba(255,255,255,0.4),
+        0 10px 40px rgba(0,0,0,0.2);
+    }
+
+    .clock-face {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform: translateY(-3px);
+    }
+
+    .hand {
+      position: absolute;
+      top: 50%;
+      width: 50%;
+      transform-origin: 100%;
+      transform: rotate(90deg);
+
+      border-radius: 999px;
+      transition: all 0.05s;
+    }
+
+    .hour-hand {
+      height: 8px;
+      background: black;
+      width: 35%;
+      left: 15%;
+    }
+
+    .minute-hand {
+      height: 5px;
+      background: black;
+    }
+
+    .second-hand {
+      height: 2px;
+      background: black;
+    }
+
+    .center-dot {
+      width: 14px;
+      height: 14px;
+      background: black;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="clock">
+    <div class="clock-face">
+      <div class="hand hour-hand"></div>
+      <div class="hand minute-hand"></div>
+      <div class="hand second-hand"></div>
+      <div class="center-dot"></div>
+    </div>
+  </div>
+
+  <script>
+    const secondHand = document.querySelector('.second-hand');
+    const minuteHand = document.querySelector('.minute-hand');
+    const hourHand = document.querySelector('.hour-hand');
+    const clockFace = document.querySelector('.clock-face');
+
+    for (let n = 1; n <= 12; n++) {
+      const angle = (n / 12) * 2 * Math.PI - Math.PI / 2;
+      const el = document.createElement('div');
+      el.textContent = n;
+      el.style.cssText = `position:absolute; left:${50 + 52 * Math.cos(angle)}%; top:${50 + 52 * Math.sin(angle)}%; transform:translate(-50%,-50%); font-size:1.4rem;`;
+      clockFace.appendChild(el);
+    }
+
+    function setDate() {
+      const now = new Date();
+      secondHand.style.transform = `rotate(${(now.getSeconds() / 60) * 360 + 90}deg)`;
+      minuteHand.style.transform = `rotate(${(now.getMinutes() / 60) * 360 + 90}deg)`;
+      hourHand.style.transform   = `rotate(${(now.getHours() / 12) * 360 + (now.getMinutes() / 60) * 30 + 90}deg)`;
+    }
+
+    setDate();
+    setInterval(setDate, 1000);
+  </script>
+
+</body>
+</html>
