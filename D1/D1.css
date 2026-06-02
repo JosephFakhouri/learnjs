@@ -1,0 +1,70 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden;
+}
+
+.keys {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 30px;
+}
+
+.key {
+  width: 100px;
+  height: 100px;
+
+  border: 2px solid rgba(255,255,255,0.2);
+  border-radius: 20px;
+
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+
+  transition: 
+    transform 0.1s ease,
+    background 0.2s ease,
+    border 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+kbd {
+  font-size: 2.2rem;
+  color: white;
+  font-weight: bold;
+}
+
+.sound {
+  margin-top: 8px;
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #38bdf8;
+}
+
+/* Animation when key pressed */
+.playing {
+  transform: scale(1.12);
+  border-color: #facc15;
+  box-shadow: 0 0 35px rgba(250,204,21,0.8);
+  background: rgba(250,204,21,0.08);
+}
