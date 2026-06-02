@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playing With CSS Variables + JS</title>
+
+  <style>
+    :root {
+      --base: #ffc600;
+      --spacing: 10px;
+      --blur: 5px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 2rem;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      font-family: "Trebuchet MS", sans-serif;
+      color: white;
+
+      background:
+        radial-gradient(circle at 20% 20%, #355c7d 0%, transparent 30%),
+        radial-gradient(circle at 80% 10%, #6c5b7b 0%, transparent 25%),
+        radial-gradient(circle at 50% 90%, #c06c84 0%, transparent 20%),
+        linear-gradient(135deg, #090d1f, #05070f);
+    }
+
+    h2 {
+      font-size: clamp(2rem, 5vw, 4rem);
+      text-align: center;
+      margin-bottom: 2rem;
+      letter-spacing: 2px;
+    }
+
+    .js {
+      color: var(--base);
+      text-shadow:
+        0 0 10px var(--base),
+        0 0 20px var(--base);
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+
+      width: min(900px, 95%);
+      margin-bottom: 2rem;
+
+      padding: 1.5rem;
+
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(15px);
+
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input[type="range"] {
+      accent-color: var(--base);
+      cursor: pointer;
+    }
+
+    input[type="color"] {
+      width: 50px;
+      height: 50px;
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+
+    img {
+      width: min(1000px, 95%);
+      height: auto;
+
+      padding: var(--spacing);
+      background: var(--base);
+      filter: blur(var(--blur));
+
+      border-radius: 25px;
+
+      box-shadow:
+        0 0 30px var(--base),
+        0 25px 50px rgba(0, 0, 0, 0.5);
+
+      transition: all 0.2s ease;
+    }
+
+    img:hover {
+      transform: scale(1.02);
+    }
+  </style>
+</head>
+
+<body>
+  <h2>
+    Update CSS Variables with
+    <span class="js">JS</span>
+  </h2>
+
+  <div class="controls">
+    <label for="spacing">Spacing:</label>
+    <input
+      type="range"
+      name="spacing"
+      min="10"
+      max="200"
+      value="10"
+      data-sizing="px"
+    >
+
+    <label for="blur">Blur:</label>
+    <input
+      type="range"
+      name="blur"
+      min="0"
+      max="25"
+      value="5"
+      data-sizing="px"
+    >
+
+    <label for="base">Base Color:</label>
+    <input
+      type="color"
+      name="base"
+      value="#ffc600"
+    >
+  </div>
+
+  <img src="cosmiccliffs.png" alt="Cosmic Cliffs">
+
+  <script>
+    const inputs = document.querySelectorAll('.controls input');
+
+    function handleUpdate() {
+      const suffix = this.dataset.sizing || '';
+      document.documentElement.style.setProperty(
+        `--${this.name}`,
+        this.value + suffix
+      );
+    }
+
+    inputs.forEach(input =>
+      input.addEventListener('change', handleUpdate)
+    );
+
+    inputs.forEach(input =>
+      input.addEventListener('mousemove', handleUpdate)
+    );
+  </script>
+</body>
+</html>
